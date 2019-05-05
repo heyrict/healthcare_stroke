@@ -56,6 +56,11 @@ const FormBody = styled.div`
 `;
 
 class Form extends React.Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+  };
+
   state = {
     gender: '',
     age: '',
@@ -70,19 +75,18 @@ class Form extends React.Component {
   };
 
   handleSubmit = () => {
-    this.setState(prevState => ({
-      gender: parseInt(prevState.gender, 10),
-      age: parseInt(prevState.age, 10),
-      hypertension: parseInt(prevState.hypertension, 10),
-      heart_disease: parseInt(prevState.heart_disease, 10),
-      ever_married: parseInt(prevState.ever_married, 10),
-      work_type: parseInt(prevState.work_type, 10),
-      residence_type: parseInt(prevState.residence_type, 10),
-      avg_glucose_level: parseFloat(prevState.avg_glucose_level, 10),
-      bmi: parseFloat(prevState.bmi, 10),
-      smoking_status: parseInt(prevState.smoking_status, 10),
-    }));
-    this.props.onSubmit(this.state);
+    this.props.onSubmit({
+      gender: parseInt(this.state.gender, 10),
+      age: parseInt(this.state.age, 10),
+      hypertension: parseInt(this.state.hypertension, 10),
+      heart_disease: parseInt(this.state.heart_disease, 10),
+      ever_married: parseInt(this.state.ever_married, 10),
+      work_type: parseInt(this.state.work_type, 10),
+      residence_type: parseInt(this.state.residence_type, 10),
+      avg_glucose_level: parseFloat(this.state.avg_glucose_level, 10),
+      bmi: parseFloat(this.state.bmi, 10),
+      smoking_status: parseInt(this.state.smoking_status, 10),
+    });
   };
 
   render() {
@@ -94,7 +98,7 @@ class Form extends React.Component {
             name="gender"
             value={this.state.gender}
             onChange={e => this.setState({ gender: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>男</option>
@@ -109,7 +113,7 @@ class Form extends React.Component {
             type="number"
             value={this.state.age}
             onChange={e => this.setState({ age: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           />
         </Flex>
         <Flex width={[1, 1 / 2]}>
@@ -118,7 +122,7 @@ class Form extends React.Component {
             name="hypertension"
             value={this.state.hypertension}
             onChange={e => this.setState({ hypertension: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>否</option>
@@ -131,7 +135,7 @@ class Form extends React.Component {
             name="heart_disease"
             value={this.state.heart_disease}
             onChange={e => this.setState({ heart_disease: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>否</option>
@@ -144,7 +148,7 @@ class Form extends React.Component {
             name="ever_married"
             value={this.state.ever_married}
             onChange={e => this.setState({ ever_married: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>否</option>
@@ -157,7 +161,7 @@ class Form extends React.Component {
             name="work_type"
             value={this.state.work_type}
             onChange={e => this.setState({ work_type: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>儿童</option>
@@ -173,7 +177,7 @@ class Form extends React.Component {
             name="residence_type"
             value={this.state.residence_type}
             onChange={e => this.setState({ residence_type: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={0}>农村</option>
@@ -188,7 +192,7 @@ class Form extends React.Component {
             step={0.01}
             value={this.state.avg_glucose_level}
             onChange={e => this.setState({ avg_glucose_level: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           />
           <div style={{ alignSelf: 'center', marginRight: '10px' }}>mg/dL</div>
         </Flex>
@@ -200,7 +204,7 @@ class Form extends React.Component {
             step={0.01}
             value={this.state.bmi}
             onChange={e => this.setState({ bmi: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           />
         </Flex>
         <Flex width={[1, 1 / 2]}>
@@ -209,7 +213,7 @@ class Form extends React.Component {
             name="smoking_status"
             value={this.state.smoking_status}
             onChange={e => this.setState({ smoking_status: e.target.value })}
-            disabled={this.state.showResults}
+            disabled={this.props.disabled}
           >
             <option />
             <option value={1}>从未吸烟</option>
@@ -224,7 +228,7 @@ class Form extends React.Component {
           width={1}
           onClick={this.handleSubmit}
           disabled={
-            this.state.showResults ||
+            this.props.disabled ||
             this.state.gender === '' ||
             this.state.age === '' ||
             this.state.hypertension === '' ||
@@ -243,10 +247,5 @@ class Form extends React.Component {
     );
   }
 }
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
 
 export default Form;
