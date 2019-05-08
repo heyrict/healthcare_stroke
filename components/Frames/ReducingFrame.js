@@ -24,7 +24,7 @@ class ReducingFrame extends React.PureComponent {
 
   render() {
     if (!this.props.formData) return null;
-    const bestParam = this.props.formData;
+    const bestParam = Object.assign({}, this.props.formData);
     const stroke_proba = get_proba(this.props.formData);
     const hasHT = Boolean(this.props.formData.hypertension);
     const hasHD = Boolean(this.props.formData.heart_disease);
@@ -49,6 +49,7 @@ class ReducingFrame extends React.PureComponent {
     }
 
     const after_proba = get_proba(bestParam);
+    const risk_reduce_delay = 1200;
 
     return (
       <React.Fragment>
@@ -72,7 +73,7 @@ class ReducingFrame extends React.PureComponent {
                   <NumberAnimation
                     from={0}
                     to={stroke_proba - after_proba}
-                    delay={1200}
+                    delay={risk_reduce_delay}
                   >
                     {number => (
                       <GreenIndicator value={number}>{number}</GreenIndicator>
@@ -84,15 +85,94 @@ class ReducingFrame extends React.PureComponent {
               的中风风险, <Box>如果你:</Box>
               <Box ml={4}>
                 <ol>
-                  {hasHT && <li>Have your hypertension well controlled</li>}
-                  {hasHD && <li>Have your heart_disease well controlled</li>}
-                  {badAGL && (
+                  {hasHT && (
                     <li>
-                      <a href="#agl1">控制血糖处于合理水平</a>
+                      <a href="#ht1">控制血压处于合理水平</a> ({' '}
+                      <NumberAnimation
+                        from={0}
+                        to={
+                          stroke_proba -
+                          get_proba({
+                            ...this.props.formData,
+                            hypertension: 0.5,
+                          })
+                        }
+                      >
+                        {number => (
+                          <GreenIndicator value={number}>
+                            {number}
+                          </GreenIndicator>
+                        )}
+                      </NumberAnimation>
+                      % )
                     </li>
                   )}
-                  {badSS && <li>Quit smoking</li>}
-                  {badBMI && <li>Lose weight</li>}
+                  {badAGL && (
+                    <li>
+                      <a href="#agl1">控制血糖处于合理水平</a> ({' '}
+                      <NumberAnimation
+                        from={0}
+                        to={
+                          stroke_proba -
+                          get_proba({
+                            ...this.props.formData,
+                            avg_glucose_level: 80,
+                          })
+                        }
+                      >
+                        {number => (
+                          <GreenIndicator value={number}>
+                            {number}
+                          </GreenIndicator>
+                        )}
+                      </NumberAnimation>
+                      % )
+                    </li>
+                  )}
+                  {badSS && (
+                    <li>
+                      <a href="#smoke1">戒烟</a> ({' '}
+                      <NumberAnimation
+                        from={0}
+                        to={
+                          stroke_proba -
+                          get_proba({
+                            ...this.props.formData,
+                            smoking_status: 2,
+                          })
+                        }
+                      >
+                        {number => (
+                          <GreenIndicator value={number}>
+                            {number}
+                          </GreenIndicator>
+                        )}
+                      </NumberAnimation>
+                      % )
+                    </li>
+                  )}
+                  {badBMI && (
+                    <li>
+                      <a href="#bmi1">合理控制体重</a> ({' '}
+                      <NumberAnimation
+                        from={0}
+                        to={
+                          stroke_proba -
+                          get_proba({
+                            ...this.props.formData,
+                            bmi: 20,
+                          })
+                        }
+                      >
+                        {number => (
+                          <GreenIndicator value={number}>
+                            {number}
+                          </GreenIndicator>
+                        )}
+                      </NumberAnimation>
+                      % )
+                    </li>
+                  )}
                 </ol>
               </Box>
             </Box>

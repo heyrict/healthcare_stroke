@@ -11,6 +11,10 @@ import {
   AGL1Frame,
   AGL2Frame,
   AGL3Frame,
+  Smoke1Frame,
+  HT1Frame,
+  BMI1Frame,
+  Others1Frame,
 } from '../components/Frames';
 
 const Page = styled.div`
@@ -52,6 +56,7 @@ class Index extends React.Component {
     const stroke_proba = get_proba(this.formData);
 
     const badAGL = this.formData.avg_glucose_level > 100;
+    const badBMI = this.formData.bmi > 25;
 
     return (
       <Page>
@@ -71,15 +76,28 @@ class Index extends React.Component {
               </Frame>
             )}
             {badAGL && (
-              <Frame id="agl2" justifyContent="left">
-                <AGL2Frame />
-              </Frame>
-            )}
-            {badAGL && (
               <Frame id="agl3" justifyContent="left">
                 <AGL3Frame />
               </Frame>
             )}
+            {this.formData.smoking_status === 3 && (
+              <Frame id="smoke1" justifyContent="left">
+                <Smoke1Frame />
+              </Frame>
+            )}
+            {this.formData.hypertension === 1 && (
+              <Frame id="ht1" justifyContent="left">
+                <HT1Frame />
+              </Frame>
+            )}
+            {badBMI && (
+              <Frame id="bmi1" justifyContent="left">
+                <BMI1Frame />
+              </Frame>
+            )}
+            <Frame id="others1" justifyContent="left">
+              <Others1Frame />
+            </Frame>
             <Frame disableRight>
               Disclaimer: Right to the stroke data used for prediction belongs
               to respective owners (McKinsey & Company and Analytics Vidhya)

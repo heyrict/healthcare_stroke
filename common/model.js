@@ -37,7 +37,7 @@ export const predict_proba = data => {
       W[data.ever_married + 8] +
       W[data.work_type + 10] +
       W[data.residence_type + 15] +
-      W[data.smoking_status + 19] +
+      W[data.smoking_status + 17] +
       b,
   );
 };
