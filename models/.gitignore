@@ -1,0 +1,6 @@
+# Generated files
+*.ipynb
+*.html
+
+# Data
+train_2v.csv.zip

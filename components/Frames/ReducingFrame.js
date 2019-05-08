@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Box } from '../common/components';
-import { get_proba } from '../common/model';
-import NumberAnimation from '../components/NumberAnimation';
+import { Box } from '../../common/components';
+import { get_proba } from '../../common/model';
+import NumberAnimation from '../../components/NumberAnimation';
 
 const WarnIndicator = styled.span`
   color: rgb(${p => parseInt(55 + p.value * 2)}, 60, 60);
@@ -86,7 +86,11 @@ class ReducingFrame extends React.PureComponent {
                 <ol>
                   {hasHT && <li>Have your hypertension well controlled</li>}
                   {hasHD && <li>Have your heart_disease well controlled</li>}
-                  {badAGL && <li>Keep your glucose level healthy</li>}
+                  {badAGL && (
+                    <li>
+                      <a href="#agl1">控制血糖处于合理水平</a>
+                    </li>
+                  )}
                   {badSS && <li>Quit smoking</li>}
                   {badBMI && <li>Lose weight</li>}
                 </ol>

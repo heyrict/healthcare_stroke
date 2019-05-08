@@ -5,7 +5,13 @@ import styled from '@emotion/styled';
 import { predict_proba, get_proba } from '../common/model';
 import { Box, Flex } from '../common/components';
 import Form from '../components/Form';
-import ReducingFrame from '../components/ReducingFrame';
+import {
+  Frame,
+  ReducingFrame,
+  AGL1Frame,
+  AGL2Frame,
+  AGL3Frame,
+} from '../components/Frames';
 
 const Page = styled.div`
   display: flex;
@@ -23,16 +29,6 @@ const Header = styled.div`
   display: flex;
   font-size: 2em;
   padding: 1em 0;
-`;
-
-const Frame = styled.div`
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
 `;
 
 class Index extends React.Component {
@@ -54,6 +50,9 @@ class Index extends React.Component {
 
   render() {
     const stroke_proba = get_proba(this.formData);
+
+    const badAGL = this.formData.avg_glucose_level > 100;
+
     return (
       <Page>
         <Head>
@@ -63,10 +62,28 @@ class Index extends React.Component {
         <Form onSubmit={this.handleSubmit} disabled={this.state.showResults} />
         {this.state.showResults && this.formData && (
           <React.Fragment>
-            <Frame id="result" ref={this.mainResultRef}>
+            <Frame id="result" ref={this.mainResultRef} disableLeft>
               <ReducingFrame formData={this.formData} />
             </Frame>
-            <Frame>... 其他可能的预防方法（每位同学一篇的短文）</Frame>
+            {badAGL && (
+              <Frame id="agl1" justifyContent="left">
+                <AGL1Frame />
+              </Frame>
+            )}
+            {badAGL && (
+              <Frame id="agl2" justifyContent="left">
+                <AGL2Frame />
+              </Frame>
+            )}
+            {badAGL && (
+              <Frame id="agl3" justifyContent="left">
+                <AGL3Frame />
+              </Frame>
+            )}
+            <Frame disableRight>
+              Disclaimer: Right to the stroke data used for prediction belongs
+              to respective owners (McKinsey & Company and Analytics Vidhya)
+            </Frame>
           </React.Fragment>
         )}
       </Page>

@@ -23,6 +23,29 @@ class MyApp extends App {
             body {
               color: #073642;
               background-color: #fdf6e3;
+              font-size: 15px;
+              scroll-behavior: smooth;
+              @media (max-width: 800px) {
+                font-size: 14px;
+              }
+              @media (max-width: 500px) {
+                font-size: 12px;
+              }
+            }
+            p {
+              margin-top: 0.3em;
+              margin-bottom: 0.3em;
+              width: 100%;
+            }
+            .green {
+              color: #859900;
+              font-size: 1.1em;
+              padding: 2px;
+            }
+            .red {
+              color: #dc322f;
+              font-size: 1.1em;
+              padding: 2px;
             }
           `}
         />

@@ -10,7 +10,7 @@ class NumberAnimation extends React.Component {
     duration: PropTypes.number,
     delay: PropTypes.number,
     steps: PropTypes.number,
-    children: PropTypes.node,
+    children: PropTypes.func,
   };
   static defaultProps = {
     delay: 0,
