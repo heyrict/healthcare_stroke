@@ -17,3 +17,23 @@ To train the model yourself, you have to download file `train_2v.csv.zip` from t
 This project is licensed under MIT, while the copyright of the healthcare dataset belongs to the corresponding original authors.
 
 Much thanks to my teammates for contributing to the webpage, collecting relative papers and contributing to the in-class presentation.
+
+## How to deploy
+1. Download `healthcare_stroke.tar.gz` assets in [releases](https://github.com/heyrict/healthcare_stroke/releases).
+2. Configure your server to serve the assets.
+
+   Here is one possible configuration for nginx. Make sure to replace `foo.bar` to your server ip or domain.
+
+   ```nginx
+   server {
+       server_name foo.bar;
+       listen 80;
+
+       client_max_body_size 4M;
+
+       location / {
+           autoindex on;
+           root /path/to/healthcare_stroke/out/;
+       }
+   }
+   ```
